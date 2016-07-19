@@ -19,6 +19,9 @@ public class MyView extends RelativeLayout {
     private TextView title;//日程内容
     private TextView time;//日程时间
     private CheckBox checkBox;//标记选项，用于多选删除
+//    private String str_title;
+//    private String str_time;
+//    private String str_state;
     int title_id;
     public MyView(Context context,Switch sw, TextView title, TextView time,CheckBox checkBox){
         super(context);
@@ -26,16 +29,17 @@ public class MyView extends RelativeLayout {
         this.sw=sw;
         this.title=title;
         this.time=time;
+//        this.str_state=str_state;
+//        this.str_time=str_time;
+//        this.str_title=str_title;
 
     }
     //创建一个日程的条目，包含两个textView,一个switch,swtich要添加监听器，控制日程开关
     public void onCreate(){//函数已有内容仅用于测试，方便了解函数实现原理
         title.setEms(8);
-        title.setText("      标题");
         title.setTextSize(27);
         title.setId(View.generateViewId());
         title_id = title.getId();
-        time.setText("           时间");
         time.setTextSize(17);
         sw.setId(View.generateViewId());
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -55,6 +59,7 @@ public class MyView extends RelativeLayout {
         this.addView(title);
         this.addView(time);
         this.addView(sw);
+
 
     }
     //改为标记状态:将swtich从条目中移除，并在原来switch的位置加入一个CheckBox。

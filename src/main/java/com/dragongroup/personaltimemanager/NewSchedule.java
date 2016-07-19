@@ -3,6 +3,7 @@ package com.dragongroup.personaltimemanager;
 //该类可以使用资源文件设置布局
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class NewSchedule extends AppCompatActivity {
