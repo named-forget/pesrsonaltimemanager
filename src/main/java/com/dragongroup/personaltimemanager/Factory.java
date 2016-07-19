@@ -1,23 +1,17 @@
 package com.dragongroup.personaltimemanager;
 
+import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.content.ContentValues;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
-import java.util.Date;
 
 /**
  * Created by 何宏华 on 2016/7/17.
  */
 public class Factory{
     private static final String DATABASE_NAME = "my_db";
-    private static final String DATABASE_TABLE ="test";
+    private static final String DATABASE_TABLE ="Schedule";
 
     public SQLiteDatabase mDataBase;//数据库对象
 
@@ -75,11 +69,13 @@ public class Factory{
         ContentValues values = new ContentValues();
         values.put("content", content);
         values.put("note", note);
-        //java.sql.date 类型会截取数据，只保留年月日，故使用java.sql.timestamp类型
-        Timestamp timestamp = null;
-        Calendar calendar = new GregorianCalendar(time[0],time[1],time[2],time[3],time[4],time[5]);
-        timestamp = new Timestamp(calendar.getTime().getTime());
-        values.put("time",timestamp.getTime());
+        String timeStr=""+time[0]+"-"+
+                ((time[1]/10==0)?"0":"")+time[1]+"-"+
+                ((time[2]/10==0)?"0":"")+time[2]+" "+
+                ((time[3]/10==0)?"0":"")+time[3]+":"+
+                ((time[4]/10==0)?"0":"")+time[4]+":"+
+                ((time[5]/10==0)?"0":"")+time[5];
+        values.put("time",timeStr);
         values.put("ring",ring);
         values.put("classify",classify);
         values.put("state",state);;
@@ -157,6 +153,7 @@ public class Factory{
         }
     }
 
+    // drop the table
     public void dropTable()
     {
         String sql="drop table " + DATABASE_TABLE;
@@ -170,30 +167,31 @@ public class Factory{
         }
     }
 
+    // close database, must be called after using
     public void close()
     {
         mDataBase.close();
     }
 
-    // used for testing
+    // used for testing/debugging
     public void test(Context context)
     {
         if(createDB(context))
         {
             if(createTable())
             {
-                if(insert("fuck","damn",new int[]{1,2,3,4,5,6},"ring",1,"state",2))
+                if(insert("fuck","damn",new int[]{2016,7,18,14,5,6},"ring",1,"state",2))
                 {
                     Cursor cursor1=selectAll();
-                    cursor1.moveToFirst();
-                    System.out.println("testing cursor:"+cursor1.getString(1));
-                    cursor1.close();
+                    cursor1.moveToFirst();  // use this function before fetching content
+                    System.out.println("testing cursor:"+cursor1.getString(3));
+                    cursor1.close();    // close cursor after using
 
-                    update(1,"content","aaa");
+                    update(1,"content","aaa");  // auto_increment_id begin with 1
 
                     Cursor cursor2=select("content","!=","fuck");
                     cursor2.moveToFirst();
-                    System.out.println("testing cursor:"+cursor2.getString(1));
+                    System.out.println("testing cursor:"+cursor2.getString(4));
                     cursor2.close();
 
                     delete(1);
