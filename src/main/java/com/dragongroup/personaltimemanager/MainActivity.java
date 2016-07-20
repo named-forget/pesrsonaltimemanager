@@ -3,11 +3,15 @@ package com.dragongroup.personaltimemanager;
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.print.PrinterCapabilitiesInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -50,15 +54,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //在Tab布局上显示联系人标题的控件
     private TextView settingText;
     //用于对Fragment进行管理
+   private NewSchedule newSchedule;
     private FragmentManager fragmentManager;
+    private FragmentTransaction transaction;//选项事务
+   // private FragmentTransaction transaction2;//新建日程事务
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initViews();
         fragmentManager=getFragmentManager();
+        initViews();
         setTabSelection(0);
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.backBtn:
+                onBackPressed();
+                break;
+            case R.id.mark:
+                schedule.checkState();
+                break;
+            case R.id.markall:
+                schedule.markAll();
+                break;
+            case R.id.create:
+                //打开新建日程界面
+//                Bundle buddle=this.onSaveInstanceState();
+//                Intent intent=new Intent();
+//                intent.setClass(this,NewSchedule.class);
+//                this.onPause();
+//                this.startActivity(intent);
+//                hideFragments(transaction);
+               Intent intent=new Intent();
+                intent.setClass(MainActivity.this,NewSchedule.class);
+                startActivity(intent);
+                break;
+            case R.id.delete:
+                schedule.remove();
+                break;
+            case R.id.cancel:
+                schedule.backState();
+        }
+        return super.onOptionsItemSelected(item);
     }
     private void initViews() {
         messageLayout = findViewById(R.id.message_layout);
@@ -105,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 每次选中之前先清楚掉上次的选中状态
         clearSelection();
         // 开启一个Fragment事务
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction=getFragmentManager().beginTransaction();
         // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
         hideFragments(transaction);
         switch (index) {
@@ -166,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
         }
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -196,4 +242,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             transaction.hide(setting);
         }
     }
+//   public  void timerClick(){
+//       Timer timer=new Timer();
+//       transaction=fragmentManager.beginTransaction();
+//       transaction.add(R.id.content,timer);
+//       transaction.addToBackStack(null);
+//       transaction.commit();
+//
+//   }
 }

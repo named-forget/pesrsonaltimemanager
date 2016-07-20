@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.content.ContextCompat;
 
 /**
  * Created by 何宏华 on 2016/7/17.
@@ -12,21 +13,19 @@ import android.database.sqlite.SQLiteDatabase;
 public class Factory{
     private static final String DATABASE_NAME = "my_db";
     private static final String DATABASE_TABLE ="Schedule";
-
+    private Context context;
     public SQLiteDatabase mDataBase;//数据库对象
 
-    //创建数据库
-    public boolean createDB(Context context)
-    {
+    public  Factory(Context context){
+        this.context=context;
         try{
             mDataBase= context.openOrCreateDatabase(DATABASE_NAME,SQLiteDatabase.CREATE_IF_NECESSARY,null);
-            System.out.println("create database succeed");
-            return true;
+            System.out.println("create database succeed");;
         }catch(SQLException e) {
             System.out.println("create database fail");
             e.printStackTrace();
-            return false;
         }
+        createTable();
     }
 
     //创建表格
@@ -63,7 +62,8 @@ public class Factory{
 
     //int[] time 保存时间。实际是包含6个元素的变量，即time[6],数组中元素从0-5分别代表年月日时分秒
     //其余变量参考文档 表结构.doc
-    public boolean insert(String content, String note, int[] time,String ring,int classify,String state,int times)
+    public boolean insert(String content, String note, int[] time,String ring,
+                          int classify,String state,int times)
     {
         //ContentValue是用来存储插入信息的容器，put用来填充容器
         ContentValues values = new ContentValues();
@@ -122,12 +122,19 @@ public class Factory{
         }
     }
 
-    //查询，返回一个Cursor
-    public Cursor selectAll()
+    //查询，返回一个Cursor，timeOrder表示是否按提醒时间排序，asc表示是否升序
+    public Cursor selectAll(boolean timeOrder,boolean asc)
     {
         Cursor cursor =null;
+        String orderString=null;
+        if(timeOrder)
+        {
+            orderString="time";
+            if(!asc)orderString+=" DESC";
+        }
+
         try{
-            cursor=mDataBase.query(DATABASE_TABLE,null,null,null,null,null,null);
+            cursor=mDataBase.query(DATABASE_TABLE,null,null,null,null,null,orderString);
             System.out.println("selectAll succeed");
         }catch(SQLException e){
             System.out.println("selectAll fail");
@@ -138,12 +145,20 @@ public class Factory{
     }
 
     //条件查询，返回Cursor,
-    //name是字段名，operator是运算符，value是值
-    public Cursor select(String name,String operator,String value)
+    //name是字段名，operator是运算符，value是值，timeOrder表示是否按提醒时间排序，asc表示是否升序
+    public Cursor select(String name,String operator,String value,boolean timeOrder,boolean asc)
     {
         Cursor cursor =null;
+        String orderString=null;
+        if(timeOrder)
+        {
+            orderString="time";
+            if(!asc)orderString+=" DESC";
+        }
+
         try{
-            cursor=mDataBase.query(DATABASE_TABLE,null,name+operator+"?",new String[]{value},null,null,null);
+            cursor=mDataBase.query(DATABASE_TABLE,null,name+operator+"?",new String[]{value},
+                    null,null,orderString);
             System.out.println("select succeed");
         }catch(SQLException e){
             System.out.println("select fail");
@@ -152,6 +167,7 @@ public class Factory{
             return cursor;
         }
     }
+
 
     // drop the table
     public void dropTable()
@@ -172,33 +188,40 @@ public class Factory{
     {
         mDataBase.close();
     }
+    public int[] getTime(String time){
+        int[] a =new int[5];
 
-    // used for testing/debugging
-    public void test(Context context)
-    {
-        if(createDB(context))
-        {
-            if(createTable())
-            {
-                if(insert("fuck","damn",new int[]{2016,7,18,14,5,6},"ring",1,"state",2))
-                {
-                    Cursor cursor1=selectAll();
-                    cursor1.moveToFirst();  // use this function before fetching content
-                    System.out.println("testing cursor:"+cursor1.getString(3));
-                    cursor1.close();    // close cursor after using
-
-                    update(1,"content","aaa");  // auto_increment_id begin with 1
-
-                    Cursor cursor2=select("content","!=","fuck");
-                    cursor2.moveToFirst();
-                    System.out.println("testing cursor:"+cursor2.getString(4));
-                    cursor2.close();
-
-                    delete(1);
-                }
-                dropTable();
-            }
-            close();
-        }
+        //处理部分交给你了
+        return a;
     }
+
+
+        // used for testing/debugging
+//    public void test(Context context)
+//    {
+//        if(createDB(context))
+//        {
+//            if(createTable())
+//            {
+//                if(insert("fuck","damn",new int[]{2016,7,18,14,5,6},"ring",1,"state",2))
+//                {
+//                    Cursor cursor1=selectAll();
+//                    cursor1.moveToFirst();  // use this function before fetching content
+//                    System.out.println("testing cursor:"+cursor1.getString(3));
+//                    cursor1.close();    // close cursor after using
+//
+//                    update(1,"content","aaa");  // auto_increment_id begin with 1
+//
+//                    Cursor cursor2=select("content","!=","fuck");
+//                    cursor2.moveToFirst();
+//                    System.out.println("testing cursor:"+cursor2.getString(4));
+//                    cursor2.close();
+//
+//                    delete(1);
+//                }
+//                dropTable();
+//            }
+//            close();
+//        }
+//    }
 }

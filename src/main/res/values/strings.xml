@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">PersonalTImeManager</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="backBtn">后退</string>
+    <string name="newSchedule">新建日程</string>
+    <string name="saveBtn">保存</string>
+    <string name="contentText">提醒做什么</string>
+    <string name="remindOnTime">是否准时提醒？</string>
+    <string name="chooseDate">选择日期</string>
+    <string name="note"> 附加信息</string>
+    <string name="chooseTime">设定时间</string>
+    <string name="tag">标签分类：</string>
+    <string name="chooseringston">选择铃声：</string>
+    <string name="nullcontentWaring">请输入日程内容</string>
+    <string name="title_activity_edit_schedule">EditSchedule</string>
 </resources>
