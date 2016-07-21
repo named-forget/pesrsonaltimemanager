@@ -11,14 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/firstRow"
+        android:id="@+id/editSchedule_firstRow"
         android:layout_weight="1"
         android:gravity="center"
         >
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/backBtn"
+            android:id="@+id/editSchedule_backBtn"
             android:text="@string/backBtn"
             android:layout_weight="1"
             android:gravity="center"
@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/newScheduleTitle"
+            android:id="@+id/editScheduleTitle"
             android:text="@string/newSchedule"
             android:layout_weight="2"
             android:gravity="center"
@@ -34,7 +34,7 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/saveBtn"
+            android:id="@+id/editSchedule_saveBtn"
             android:text="@string/saveBtn"
             android:layout_weight="1"
             />
@@ -42,7 +42,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contentText"
+        android:id="@+id/editSchedule_contentText"
         android:hint="@string/contentText"
         android:gravity="top"
         android:focusable="true"
@@ -58,17 +58,17 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/note"
+            android:id="@+id/editSchedule_note"
             android:hint="@string/note"
             android:layout_margin="2dp"
 
-        />
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/fourthRow"
+        android:id="@+id/editSchedule_fourthRow"
         android:gravity="center"
         android:layout_weight="1"
         >
@@ -76,7 +76,7 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/setTimeBtn"
+            android:id="@+id/editSchedule_setTimeBtn"
             android:text="@string/chooseTime"
             android:layout_weight="1"
             android:layout_margin="2dp"
@@ -88,7 +88,7 @@
             android:textOn="@string/isRemindOnTime"
             android:textOff="@string/isRemindOnTime"
             android:checked="false"
-            android:id="@+id/ring_On_Time"
+            android:id="@+id/editSchedule_ring_On_Time"
             android:layout_weight="2"
             android:layout_margin="2dp"
             />
@@ -96,7 +96,7 @@
             android:text="@string/chooseDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/setDate"
+            android:id="@+id/editSchedule_setDate"
             android:layout_weight="1"
             android:layout_margin="2dp"
             />
@@ -105,7 +105,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/lastRow"
+        android:id="@+id/editSchedule_lastRow"
         android:layout_weight="1"
         android:weightSum="4"
         android:gravity="center">
@@ -114,7 +114,7 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/setRingstone"
+            android:id="@+id/editSchedule_setRingstone"
             android:text="@string/chooseringston"
             android:layout_weight="1"
             tools:ignore="NestedWeights"
@@ -126,27 +126,27 @@
             android:layout_margin="2dp"
             android:gravity="center_horizontal"
             >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sortTagText"
-            android:text="@string/tag"
-            android:ems="12"
-            android:gravity="center_horizontal"
-            android:layout_alignTop="@+id/sortTag"
-            android:layout_alignBottom="@+id/sortTag"
-            android:layout_alignParentStart="true"
-            android:layout_margin="2dp"
-            tools:ignore="RelativeOverlap" />
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sortTag"
-            android:entries="@array/cities"
-            android:prompt="@string/tag"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="2dp"
-            />
-         </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/editSchedule_sortTagText"
+                android:text="@string/tag"
+                android:ems="12"
+                android:gravity="center_horizontal"
+                android:layout_alignTop="@+id/editSchedule_sortTag"
+                android:layout_alignBottom="@+id/editSchedule_sortTag"
+                android:layout_alignParentStart="true"
+                android:layout_margin="2dp"
+                tools:ignore="RelativeOverlap" />
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/editSchedule_sortTag"
+                android:entries="@array/cities"
+                android:prompt="@string/tag"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="2dp"
+                />
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 /**
  * Created by 何宏华 on 2016/7/17.
@@ -192,7 +193,17 @@ public class Factory{
         int[] a =new int[5];
 
         //处理部分交给你了
-        return a;
+        if(time.length()==19) {
+            a[0] = Integer.parseInt(time.substring(0, 4));
+            a[1] = Integer.parseInt(time.substring(5, 7));
+            a[2] = Integer.parseInt(time.substring(8, 10));
+            a[3] = Integer.parseInt(time.substring(11, 13));
+            a[4] = Integer.parseInt(time.substring(14, 16));
+            return a;
+        }else{
+            Log.w("警告","传入时间错误");
+            return null;
+        }
     }
 
 

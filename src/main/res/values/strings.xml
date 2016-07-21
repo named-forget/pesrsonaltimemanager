@@ -7,7 +7,10 @@
     <string name="newSchedule">新建日程</string>
     <string name="saveBtn">保存</string>
     <string name="contentText">提醒做什么</string>
-    <string name="remindOnTime">是否准时提醒？</string>
+    <string name="isRemindOnTime">是否准时提醒？</string>
+    <string name="RemindOnTimeOn">准时提醒</string>
+    <string name="RemindOnTimeOff">不提醒</string>
+
     <string name="chooseDate">选择日期</string>
     <string name="note"> 附加信息</string>
     <string name="chooseTime">设定时间</string>

@@ -47,7 +47,6 @@ public class NewSchedule extends AppCompatActivity {
     private int times = 1;
     private String state = "未完成";
     // public boolean ringOnTime;
-    private Calendar c;
     private String strFolder;//铃声所在位置路径
     private Button backBtn;
     private Button saveBtn;
@@ -58,12 +57,12 @@ public class NewSchedule extends AppCompatActivity {
     private Spinner sortTag;
     private EditText contentText;
     private EditText noteText;
+    private  Calendar c;
     private int year;
     private int month;
     private int day;
     private int hour;
     private int minute;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +76,13 @@ public class NewSchedule extends AppCompatActivity {
         sortTag = (Spinner) findViewById(R.id.sortTag);
         contentText = (EditText) findViewById(R.id.contentText);
         noteText = (EditText) findViewById(R.id.note);
-        strFolder = Environment.getExternalStorageDirectory().getPath() + "/Music/Subat";
+        strFolder = Environment.getExternalStorageDirectory().getPath() + "/Music";
+        c=Calendar.getInstance();
+        year=c.get(Calendar.YEAR);
+        month=c.get(Calendar.MONTH)+1;
+        day=c.get(Calendar.DAY_OF_MONTH)+1;
+        hour= c.get(Calendar.HOUR_OF_DAY);
+        minute=c.get(Calendar.MINUTE);
 
         /*
         返回按钮事件
@@ -87,7 +92,7 @@ public class NewSchedule extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //结束当前界面
-
+            NewSchedule.this.finish();
             }
         });
         /*
@@ -110,9 +115,12 @@ public class NewSchedule extends AppCompatActivity {
                     time[4] = minute;
                     time[5] = 0;
                     Factory factory = new Factory(NewSchedule.this);
-                    factory.insert(content, note, time, ring, classify, "未完成", times);
+                    factory.insert(content, note, time, ring, classify, state, times);
                     factory.close();
                     remindDialog(v);
+                    //发送广播给MainAcitivity，在MainAcitivity 中调用Schedule.refresh（）刷新界面
+                    Intent intent=new Intent("finish");
+                    sendBroadcast(intent);
                 }
             }
         });
@@ -123,7 +131,7 @@ public class NewSchedule extends AppCompatActivity {
         setTimeBtn.setOnClickListener(new View.OnClickListener() {
                                           @Override
                                           public void onClick(View v) {
-                                              Calendar c = Calendar.getInstance();
+                                           //   Calendar c = Calendar.getInstance();
                                               new TimePickerDialog(NewSchedule.this,
                                                       new TimePickerDialog.OnTimeSetListener() {
                                                           @Override
@@ -178,7 +186,7 @@ public class NewSchedule extends AppCompatActivity {
         setDateBtn.setOnClickListener(new View.OnClickListener() {
                                           @Override
                                           public void onClick(View v) {
-                                              Calendar c = Calendar.getInstance();
+                                            //  Calendar c = Calendar.getInstance();
                                               new DatePickerDialog(NewSchedule.this, new DatePickerDialog.OnDateSetListener() {
                                                   @Override
                                                   public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -329,6 +337,7 @@ public class NewSchedule extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which)
             {
                 Toast.makeText(NewSchedule.this,"已创建",Toast.LENGTH_SHORT).show();
+                NewSchedule.this.finish();
             }
         });
     }

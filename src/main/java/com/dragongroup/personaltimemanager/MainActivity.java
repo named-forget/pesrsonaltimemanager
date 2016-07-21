@@ -3,7 +3,10 @@ package com.dragongroup.personaltimemanager;
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.print.PrinterCapabilitiesInfo;
@@ -22,6 +25,7 @@ import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.app.Fragment;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -96,6 +100,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                Intent intent=new Intent();
                 intent.setClass(MainActivity.this,NewSchedule.class);
                 startActivity(intent);
+                IntentFilter intentFilter=new IntentFilter();
+                intentFilter.addAction("finish");
+
+                BroadcastReceiver nschdule_receiver=new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        String action=intent.getAction();
+                        if(getIntent().getAction().equals("finish"));
+                        Toast.makeText(MainActivity.this,"接收到新建日程信息",Toast.LENGTH_SHORT).show();
+                        schedule.refresh();
+                    }
+                };
+                registerReceiver(nschdule_receiver,intentFilter);
+
                 break;
             case R.id.delete:
                 schedule.remove();
